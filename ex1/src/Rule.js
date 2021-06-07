@@ -14,9 +14,9 @@
          <div className="btn-toolbar">
            {tags}
            <div className="btn-group btn-group-xs pull-right">
-             <a className="btn btn-primary" title="Update">
+             <button className="btn btn-primary" title="Update">
                <i className="glyphicon glyphicon-pencil" />
-             </a>
+             </button>
            </div>
            <div className="btn-group btn-group-xs pull-right">
              <button className="btn btn-default" title="+1">
