@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+main {
+  padding: 1rem;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Dark theme */
+.bg-dark {
+  background-color: rgb(63, 61, 61);
+}
+
+.panel-dark {
+  border-color: rgb(63, 61, 61);
+}
+
+.panel-dark .panel-heading {
+  background-color: rgb(63, 61, 61);
+  color: white;
+}
