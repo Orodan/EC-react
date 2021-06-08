@@ -44,8 +44,8 @@ export default function Rule(props) {
             </button>
           </div>
           <div className="btn-group btn-group-xs pull-right">
-            <LikeBtn type="like" counter={rule.likes} />
-            <LikeBtn type="dislike" counter={rule.dislikes} />
+            <LikeBtn id={rule.id} type="like" counter={rule.likes} />
+            <LikeBtn id={rule.id} type="dislike" counter={rule.dislikes} />
           </div>
         </div>
       </div>
