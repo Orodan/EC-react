@@ -1,5 +1,5 @@
-import React from 'react'
-import { arrayOf, number, shape, string } from 'prop-types'
+import React, { useEffect } from 'react'
+import { arrayOf, shape, string, number } from 'prop-types'
 
 import Rule from './Rule'
 
@@ -10,10 +10,16 @@ RuleList.propTypes = {
         likes: number,
         dislikes: number,
         tags: arrayOf(string),
-    })).isRequired,
+    }))
 }
 export default function RuleList(props) {
-    const elements = props.rules.map(rule => <Rule key={rule.id} rule={rule} />)
+    const { rules } = props
+    
+    useEffect(() => {
+        document.title = `${rules.length} rules` 
+    }, [rules])
+
+    const elements = rules.map(rule => <Rule key={rule.id} rule={rule} />)
 
     return (
         <div>{elements}</div>
