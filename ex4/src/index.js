@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App'
+import RuleList from './RuleList'
+import rules from './data.json'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import './index.css'
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RuleList rules={rules} />
   </React.StrictMode>,
   document.getElementById('root')
 );

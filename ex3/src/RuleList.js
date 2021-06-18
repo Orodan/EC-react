@@ -1,8 +1,6 @@
-import React, { useMemo, useState } from 'react'
-import { arrayOf, number, shape, string } from 'prop-types'
+import React, { useEffect } from 'react'
+import { arrayOf, shape, string, number } from 'prop-types'
 
-import ThemeContext from './ThemeContext'
-import Header from './Header'
 import Rule from './Rule'
 
 RuleList.propTypes = {
@@ -12,25 +10,18 @@ RuleList.propTypes = {
         likes: number,
         dislikes: number,
         tags: arrayOf(string),
-    })).isRequired,
+    }))
 }
 export default function RuleList(props) {
-    const elements = props.rules.map(rule => <Rule key={rule.id} rule={rule} />)
+    const { rules } = props
+    
+    useEffect(() => {
+        document.title = `${rules.length} rules` 
+    }, [rules])
 
-    const [theme, updateTheme] = useState('blue')
-    const themeContextValue = useMemo(() => {
-        return { theme, updateTheme }
-    }, [theme, updateTheme])
+    const elements = rules.map(rule => <Rule key={rule.id} rule={rule} />)
 
     return (
-        <>
-            <ThemeContext.Provider value={themeContextValue}>
-                <Header />
-
-                <main>
-                    <div>{elements}</div>
-                </main>
-            </ThemeContext.Provider>
-        </>
+        <div>{elements}</div>
     )
 }

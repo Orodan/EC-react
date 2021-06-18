@@ -1,26 +1,39 @@
-import { useEffect, useState } from 'react'
-import classNames from 'classnames'
-import { number, oneOf } from 'prop-types'
+import { useState } from 'react'
+import { oneOf } from 'prop-types'
 
 LikeBtn.propTypes = {
-    type: oneOf(['like', 'dislike']).isRequired,
-    counter: number,
+    type: oneOf(['like', 'dislike'])
 }
 export default function LikeBtn(props) {
-    const { type } = props
-    const [counter, setCounter] = useState(0)
-    // Allow to specify counter value from props
-    useEffect(() => {
-        setCounter(props.counter || 0)
-    }, [props.counter])
+    const { id, type, initialCounter } = props
+    const [counter, setCounter] = useState(initialCounter)
 
-    const isLike = type === 'like'
-    const title = isLike ? '+1' : '-1'
-    const iconClass = isLike ? 'glyphicon-thumbs-up' : 'glyphicon-thumbs-down'
+    function incrementCounter(id, type) {
+        if (type === 'like') {
+            fetch(`http://localhost:4000/rest/rules/${id}/likes`, { method: 'POST' })
+                .then(() => setCounter(counter + 1))
+        }
 
-    return (
-        <button className="btn btn-default" title={title} onClick={() => setCounter(counter + 1)}>
-            {counter} <i className={classNames('glyphicon', iconClass)} />
+        if (type === 'dislike') {
+            fetch(`http://localhost:4000/rest/rules/${id}/dislikes`, { method: 'POST' })
+                .then(() => setCounter(counter + 1))
+        }
+    }
+
+    const likeBtnElement = (
+        <button className="btn btn-default" title="+1" onClick={() => incrementCounter(id, type)}>
+            {counter} <i className="glyphicon glyphicon-thumbs-up" />
         </button>
     )
+
+    const dislikeBtnElement = (
+        <button className="btn btn-default" title="-1" onClick={() => incrementCounter(id, type)}>
+            {counter} <i className="glyphicon glyphicon-thumbs-down" />
+        </button>
+    )
+
+    if (type === 'like') return likeBtnElement
+    if (type === 'dislike') return dislikeBtnElement
+
+    throw new Error(`Unknown type ${type}`)
 }

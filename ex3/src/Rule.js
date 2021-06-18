@@ -1,11 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 import classNames from 'classnames'
-import { arrayOf, number, shape, string } from 'prop-types'
- 
-import LikeBtn from './LikeBtn'
+import { shape, string, number, arrayOf } from 'prop-types'
 
+import LikeBtn from './LikeBtn'
+ 
 import './Rule.css'
-import ThemeContext from './ThemeContext'
 
 Rule.propTypes = {
   rule: shape({
@@ -14,27 +13,22 @@ Rule.propTypes = {
     likes: number,
     dislikes: number,
     tags: arrayOf(string),
-  }).isRequired,
+  })
 }
 export default function Rule(props) {
   const { rule } = props;
-  const [folded, setFolded] = useState(false)
-  const { theme } = useContext(ThemeContext)
-  const isBlue = theme === 'blue'
-
-  // Fold rule if there is no description
-  useEffect(() => {
-    setFolded(!Boolean(rule.description))
-  }, [rule.description])
+  const hasDescription = Boolean(rule.description)
+  const [folded, setFolded] = useState(!hasDescription)
 
   const tags = rule.tags.map(tag => <span key={tag} className="badge">{tag}</span>);
  
   return (
-    <div className={classNames('panel rule', { 'panel-primary': isBlue, 'panel-dark': !isBlue })}>
+    <div className="panel panel-primary rule">
       <div className="panel-heading" role="presentation" onClick={() => setFolded(!folded)}>
-        {rule.title}<i className={classNames('pull-right glyphicon', { 'glyphicon-chevron-up': folded, 'glyphicon-chevron-down': !folded } )} />
+        {rule.title}
+        <i className={`pull-right glyphicon ${folded ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'}`} />
       </div>
-      <div className={classNames('panel-body', { hidden: folded })}><p>{rule.description}</p></div>
+      <div className={classNames('panel-body', { 'hidden': folded })}><p>{rule.description}</p></div>
       <div className="panel-footer">
         <div className="btn-toolbar">
           {tags}
@@ -44,8 +38,8 @@ export default function Rule(props) {
             </button>
           </div>
           <div className="btn-group btn-group-xs pull-right">
-            <LikeBtn type="like" counter={rule.likes} />
-            <LikeBtn type="dislike" counter={rule.dislikes} />
+            <LikeBtn type="like" id={rule.id} initialCounter={rule.likes} />
+            <LikeBtn type="dislike" id={rule.id} initialCounter={rule.dislikes} />
           </div>
         </div>
       </div>
