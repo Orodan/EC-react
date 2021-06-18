@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors')
 const config = require('./config.json');
 
 const app = express();
+
+app.use(cors())
 
 // Add body-parser
 app.use(require('body-parser').json());
